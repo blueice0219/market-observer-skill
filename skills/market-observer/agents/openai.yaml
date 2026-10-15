@@ -1,0 +1,4 @@
+interface:
+  display_name: "观市 · A股观察与研究"
+  short_description: "部署本地 A 股行情工作台，查询股票数据并生成带来源的个股观察报告"
+  default_prompt: "使用 $market-observer 查询我关注的股票，并结合公告、新闻和财务证据生成详细观察报告。"

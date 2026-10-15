@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>观市 · A股行情工作台</title><link rel="icon" href="/assets/mark.svg" type="image/svg+xml"><link rel="stylesheet" href="/assets/style.css"><script src="/assets/app.js" defer></script></head>
+<body>
+<aside class="sidebar">
+  <a class="brand" href="/"><img src="/assets/mark.svg" alt=""><span>观市<small>MARKET OBSERVER</small></span></a>
+  <div class="workspace">个人行情工作台 <span>本机</span></div>
+  <div class="nav-label">工作空间</div>
+  <nav aria-label="主导航">
+    <button class="nav active" data-view="market"><span>▦</span>全市场行情</button>
+    <button class="nav" data-view="watch"><span>☆</span>我的自选 <b id="watch-count">0</b></button>
+    <button class="nav" data-view="rank"><span>↗</span>市场排行榜</button>
+    <button class="nav" data-view="status"><span>◉</span>数据与状态</button>
+  </nav>
+  <div class="sidebar-foot"><div class="source-mark"><i></i> 本地行情服务</div><p>数据留在本机<br>用清晰的视角，观察市场。</p><button id="settings" class="text-button">⚙ 连接设置</button><a href="/docs" target="_blank" rel="noopener">接口文档 ↗</a></div>
+</aside>
+<main>
+ <header class="topbar"><span>工作空间 <span class="slash">/</span> <strong id="breadcrumb">全市场行情</strong></span><div class="top-right"><button id="settings-top" class="mobile-settings button" aria-label="连接设置">⚙</button><span id="clock"></span><span class="local-tag">LOCAL</span></div></header>
+ <div class="content">
+  <section class="page-heading"><div><div class="eyebrow">A-SHARE MARKET</div><h1 id="title">全市场行情<span class="live-pill" id="live-pill">连接中</span></h1><p id="subtitle">一览沪深京市场动态，让每一次观察都有依据。</p></div><div class="heading-actions"><button id="auto" class="button">◷ 自动刷新 · 开</button><button id="refresh" class="button primary">↻ 刷新行情</button></div></section>
+  <div id="notice" class="notice" role="status" hidden></div>
+  <section class="metrics" aria-label="市场概览">
+   <article class="metric"><div>覆盖股票 <span>沪 · 深 · 京</span></div><strong id="metric-total">—</strong><small id="metric-source">等待行情快照</small></article>
+   <article class="metric"><div>上涨家数 <span class="up">↗</span></div><strong class="up" id="metric-up">—</strong><small id="up-share">—</small></article>
+   <article class="metric"><div>下跌家数 <span class="down">↘</span></div><strong class="down" id="metric-down">—</strong><small id="down-share">—</small></article>
+   <article class="metric"><div>快照成交额 <span>人民币</span></div><strong id="metric-amount">—</strong><small id="metric-amount-note">已返回股票成交额之和</small></article>
+  </section>
+  <section id="market-content">
+   <div class="market-layout">
+    <section class="panel quote-panel">
+     <div class="panel-top"><div class="tabs" id="exchange-tabs"><button class="selected" data-exchange="">全部市场</button><button data-exchange="sh">沪市</button><button data-exchange="sz">深市</button><button data-exchange="bj">北交所</button></div><span class="count-label" id="result-count">— 只股票</span></div>
+     <div class="filters"><label class="search"><span>⌕</span><input id="search" type="search" placeholder="搜索股票名称 / 代码" aria-label="搜索股票名称或代码" maxlength="64"><kbd>/</kbd></label><select id="rank-type" aria-label="排行榜类型" hidden><option value="gain">涨幅榜</option><option value="loss">跌幅榜</option><option value="amount">成交额榜</option><option value="volume">成交量榜</option></select><button class="button" id="export">↓ 导出 CSV</button></div>
+     <div class="table-wrap"><table><thead><tr><th class="star-col">自选</th><th><button data-sort="code">股票 / 代码 <span>↕</span></button></th><th><button data-sort="price">最新价 <span>↕</span></button></th><th><button data-sort="change_pct">涨跌幅 <span>↕</span></button></th><th><button data-sort="volume">成交量 <span>↕</span></button></th><th><button data-sort="amount">成交额 <span>↕</span></button></th></tr></thead><tbody id="quote-rows"></tbody></table><div id="empty" class="empty">正在连接本地行情服务…</div></div>
+     <div class="pagination"><span id="page-info">—</span><div><button id="prev" class="button" aria-label="上一页">←</button><span id="page-number">1 / 1</span><button id="next" class="button" aria-label="下一页">→</button></div></div>
+    </section>
+    <aside class="right-column">
+     <section class="panel breadth"><div class="section-title"><h2>市场温度</h2><span>当前快照</span></div><div class="breadth-value"><strong id="breadth-ratio">—</strong><span>上涨占比</span></div><div class="breadth-track"><div id="breadth-up"></div><div id="breadth-flat"></div><div id="breadth-down"></div></div><div class="legend"><span><i class="red"></i>涨 <b id="breadth-up-count">—</b></span><span><i class="gray"></i>平 <b id="breadth-flat-count">—</b></span><span><i class="green"></i>跌 <b id="breadth-down-count">—</b></span></div><p id="breadth-note">按有涨跌幅的股票统计</p><hr><h3>涨跌幅分布</h3><div id="distribution"></div></section>
+     <section class="panel snapshot-panel"><div class="section-title"><h2>数据快照</h2><span class="tiny-dot"></span></div><dl><div><dt>行情来源</dt><dd id="source">—</dd></div><div><dt>采集时间</dt><dd id="collected">—</dd></div><div><dt>数据年龄</dt><dd id="age">—</dd></div><div><dt>服务状态</dt><dd id="service-state">连接中</dd></div></dl><p>页面每 30 秒读取快照，采集器约每 5 分钟更新。采集时间不等于交易所行情时间。</p></section>
+    </aside>
+   </div>
+  </section>
+  <section id="status-content" class="panel status-panel" hidden><h2>采集与服务状态</h2><p>在这里查看数据来源、新鲜度和最近一次采集结果。</p><dl id="status-details"></dl><h3>最近错误</h3><pre id="last-error">无</pre><p class="muted">时间窗口仅按上海时区估计，未验证法定休市日历。免费行情源可能延迟或缺失，本页面不提供交易功能。</p></section>
+  <footer><span>观市 · 本地 A 股行情工作台</span><span>红涨绿跌 · 行情仅供观察 <span id="last-refresh"></span></span></footer>
+ </div>
+</main>
+<dialog id="detail-dialog" class="detail-dialog"><div class="dialog-top"><span class="eyebrow">STOCK SNAPSHOT</span><button class="icon-button close-dialog" aria-label="关闭股票详情">×</button></div><h2 id="detail-name"></h2><p id="detail-symbol" class="muted"></p><div id="detail-price" class="detail-price"></div><dl id="detail-fields" class="detail-fields"></dl><button id="detail-watch" class="button primary"></button><p class="muted">展示当前快照，不含分时或历史 K 线。</p></dialog>
+<dialog id="settings-dialog"><div class="dialog-top"><h2>连接设置</h2><button class="icon-button close-dialog" aria-label="关闭连接设置">×</button></div><p>当前连接本机服务。只有服务启用密钥时才需要填写。</p><label class="key-label">API 密钥<input id="api-key" type="password" autocomplete="off" placeholder="本机默认无需填写"></label><p class="muted">密钥仅保留在当前页面内存，关闭页面即清除。</p><button id="save-key" class="button primary">保存并重新连接</button></dialog>
+<div id="toast" class="toast" role="status" hidden></div>
+</body></html>

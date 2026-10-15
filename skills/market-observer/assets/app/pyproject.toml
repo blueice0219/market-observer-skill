@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "a-share-monitor-api"
+version = "1.0.0"
+description = "A-share snapshot collector and HTTP API"
+requires-python = ">=3.11"
+dependencies = ["fastapi==0.143.1", "uvicorn==0.54.0", "tzdata==2026.5"]
+
+[project.optional-dependencies]
+live = ["akshare==1.19.1"]
+test = ["pytest==9.1.1", "httpx==0.28.1"]
+
+[project.scripts]
+a-share-monitor = "a_share_monitor.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["a_share_monitor*"]
+
+[tool.setuptools.package-data]
+a_share_monitor = ["ui/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
